@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FrontEnd Store</title>
+    <link rel="stylesheet" href="css/Normalize.css">
+    <link href="https://fonts.googleapis.com/css2?family=Staatliches&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header class="header">
+        <a href="index.html"></a>
+            <img class="header__logo" src="img/logo.png" alt="Logotipo">
+    </header>
+    <nav class="navegacion">
+        <a class="navegacion__enlace navegacion__enlace--activo" href="index.html">Tienda</a>
+        <a class="navegacion__enlace" href="nosotros.html">Nosotros</a>
+    </nav>
+
+    <main class="contenedor">
+        <h1>Productos</h1>
+        <div class="toma">
+            <img class="toma__imagen" src="img/3.png" alt="imagen del producto">
+
+            <div class="toma__contenido">
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium voluptatibus nihil mollitia incidunt velit cumque at itaque totam nostrum, modi provident nam vel omnis et minus quasi nulla ea porro! Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia obcaecati placeat impedit consequuntur qui animi. Earum voluptatum aperiam numquam iste ullam, exercitationem eligendi aliquam veniam doloribus assumenda, quae, deleniti tempore. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tenetur iusto pariatur facere ratione repudiandae autem nostrum, architecto, iure doloremque quasi tempora. Dolorum quam facilis eveniet repellat, dolorem natus ab vero.</p>
+
+                <form class="formulario">
+                    <select class="formulario__campo">
+                        <option disabled selected>-- Seleccionar color--</option>
+                        <option>Gris</option>
+                        <option>Blanca</option>
+                        <option>Gris</option>
+                    </select>
+                    <input class="formulario__campo" type="number" placeholder="cantidad" min="1">
+                    <input id="agregarAlCarritoBtn" class="formulario__submit" type="submit" value="Agregar al carrito">
+                </form>
+            </div>
+        </div>
+    </main>
+
+
+    <footer class="footer">
+        <p class="footer__texto" >Front End Store - Todos los derechos reservados 2025.</p>
+    </footer>
+    <script src="./js/scripts.js"></script>
+    <script src="./js/carrito.js"></script>
+</body>
+</html>
