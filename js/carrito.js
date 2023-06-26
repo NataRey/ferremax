@@ -13,8 +13,8 @@ if (agregarAlCarritoBtn) {
     event.preventDefault(); // Evitar el envío del formulario
 
     // Obtener los valores de los campos del formulario
-    const colorSelect = document.querySelector('.formulario__campo--color');
-    const cantidadInput = document.querySelector('.formulario__campo--cantidad');
+    const colorSelect = document.querySelector('.formulario__campo');
+    const cantidadInput = document.querySelector('.formulario__cantidad');
 
     const colorSeleccionado = colorSelect.value;
     const cantidadSeleccionada = cantidadInput.valueAsNumber;
@@ -22,9 +22,15 @@ if (agregarAlCarritoBtn) {
     // Validar que se haya seleccionado un color y una cantidad
     if (colorSeleccionado && cantidadSeleccionada) {
       // Crear objeto de producto con los datos seleccionados
+      let productover = JSON.parse(localStorage.getItem('dataProductoVer'));
       const producto = {
+        id: productover.id,
+        nombre: productover.nombre,
+        precio: productover.precio,
+        imagen: productover.imagen,
+        
         color: colorSeleccionado,
-        cantidad: cantidadSeleccionada
+        cantidad: cantidadSeleccionada,
       };
 
       // Agregar el producto al carrito
@@ -43,37 +49,88 @@ if (agregarAlCarritoBtn) {
   });
 }
 
-// Función para agregar un producto al carrito
-function agregarAlCarrito(producto) {
-  // Obtener el carrito almacenado en el almacenamiento local (localStorage)
-  let carrito = localStorage.getItem('carrito');
+let productosCarrito = localStorage.getItem('carrito');
+productosCarrito = JSON.parse(productosCarrito);
+let tbody = document.querySelector('#tbody');
 
-  if (carrito) {
-    // Si el carrito ya existe en el almacenamiento local, convertirlo de JSON a objeto
-    carrito = JSON.parse(carrito);
-  } else {
-    // Si el carrito no existe, crear un nuevo array vacío
-    carrito = [];
+let carritoStr = '';
+const divProduct = document.createElement('div');
+
+const rednderizarProductos = () => {
+  let i = 0;
+  productosCarrito.forEach((product) => {
+    
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+    <th scope="row">${product.id}</th>
+    <td>${product.nombre}</td>
+    <td>
+        <image  src = '${product.imagen}'></image>
+    </td>
+    <td>${product.precio}</td>
+    <td>${product.cantidad}</td>
+    <td>${product.cantidad * product.precio}</td>
+    <td ><i id ="${i}" i class=" producto__eliminar bi bi-trash"></i></td>
+
+    `;
+
+    tbody.append(tr)
+    console.log(product);
+    i++
+    
+  });
+  actualizarBotonesEliminar();
+  
+}
+rednderizarProductos()
+
+function actualizarBotonesEliminar() {
+  let botonesEliminar = document.querySelectorAll('.producto__eliminar');
+  botonesEliminar.forEach((boton) => {
+    boton.addEventListener('click', eliminarDelCarrito);
+  });
+}
+
+
+function eliminarDelCarrito(e) {
+  const idBoton = e.currentTarget.id;
+  productosCarrito.splice(idBoton, 1);
+  localStorage.setItem('carrito', JSON.stringify(productosCarrito));
+  window.location.reload();
+
+  console.log(idBoton);
+  
+}
+
+
+/* ---------------------------------- total --------------------------------- */
+const totalCompra = document.querySelector('.totalCompra');
+
+let totalValorCompra = 0;
+
+productosCarrito.forEach(producto => {
+  totalValorCompra += producto.precio * producto.cantidad
+  
+});
+totalCompra.innerHTML = `<p>${totalValorCompra}</p>`
+
+
+/* ------------------------------- fin compra ------------------------------- */
+const fincompra = () => {
+
+  
+  vaciarCarrito()
+  window.location.href='/index.html'
+}
+
+/* ------------------------- vaciar todo el carrito ------------------------- */
+const vaciarCarrito = () => {
+  while (productosCarrito.length) {
+    productosCarrito.splice(0, productosCarrito.length);
+    localStorage.setItem('carrito', JSON.stringify(productosCarrito))
   }
-
-  // Agregar el producto al carrito
-  carrito.push(producto);
-
-  // Guardar el carrito actualizado en el almacenamiento local
-  localStorage.setItem('carrito', JSON.stringify(carrito));
+  
+  window.location.reload();
+  
 }
 
-// Función para mostrar un mensaje al usuario
-function mostrarMensaje(mensaje, tipo) {
-  const mensajeElement = document.createElement('div');
-  mensajeElement.classList.add('mensaje', `mensaje--${tipo}`);
-  mensajeElement.textContent = mensaje;
-
-  const contenedor = document.querySelector('.contenedor');
-  contenedor.appendChild(mensajeElement);
-
-  // Desaparecer el mensaje después de 3 segundos
-  setTimeout(() => {
-    mensajeElement.remove();
-  }, 3000);
-}
